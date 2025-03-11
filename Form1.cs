@@ -9,28 +9,33 @@ namespace lab2_task2
 
         private void button1_Click(object sender, EventArgs e)
         {
-                string input_A;
-                string input_B;
-                string input_C;
+                double input_A;
+                double input_B;
+                double input_C;
 
                 string output;
 
-                do
+                try
                 {
-                    Console.Write("Введите сумму денег на счёте A: ");
-                    input_A = Console.ReadLine();
+                    input_A = double.Parse(this.textA.Text);
+                    input_B = double.Parse(this.textB.Text);
+                    input_C = double.Parse(this.textC.Text);
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("В поля для ввода могут быть поданы только числа!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                    Console.Write("Введите необходимую величину ежемесячного увеличения B: ");
-                    input_B = Console.ReadLine();
-
-                    Console.Write("Введите сумму C, которую нужно превысить вкладу: ");
-                    input_C = Console.ReadLine();
-                    Console.WriteLine();
-                } while (!isInputValid(input_A) || !isInputValid(input_B) || !isInputValid(input_C));
+                if (!isInputValid(this.textA.Text) || !isInputValid(this.textB.Text) || !isInputValid(this.textC.Text))
+                {
+                    MessageBox.Show("Все введённый числа должны быть больше 0!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 output = Logic.FindMonths(input_A, input_B, input_C);
 
-                Console.WriteLine(output);
+                MessageBox.Show(output, "Результат просчёта");
         }
         public static bool isInputValid(string input)
         {
@@ -51,13 +56,9 @@ namespace lab2_task2
     }
     public class Logic
     {
-        public static string FindMonths(string input_A, string input_B, string input_C)
+        public static string FindMonths(double money_A, double money_B, double money_C)
         {
             string output;
-
-            double money_A = double.Parse(input_A);
-            double money_B = double.Parse(input_B);
-            double money_C = double.Parse(input_C);
 
             int month_B = 0;
             int month_C = 0;
