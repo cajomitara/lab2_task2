@@ -5,37 +5,46 @@ namespace lab2_task2
         public Form1()
         {
             InitializeComponent();
+
+            textA.Text = Properties.Settings.Default.A.ToString();
+            textB.Text = Properties.Settings.Default.B.ToString();
+            textC.Text = Properties.Settings.Default.C.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-                double input_A;
-                double input_B;
-                double input_C;
+            double input_A;
+            double input_B;
+            double input_C;
 
-                string output;
+            string output;
 
-                try
-                {
-                    input_A = double.Parse(this.textA.Text);
-                    input_B = double.Parse(this.textB.Text);
-                    input_C = double.Parse(this.textC.Text);
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("В поля для ввода могут быть поданы только числа!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            try
+            {
+                input_A = double.Parse(this.textA.Text);
+                input_B = double.Parse(this.textB.Text);
+                input_C = double.Parse(this.textC.Text);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("В поля для ввода могут быть поданы только числа!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                if (!isInputValid(this.textA.Text) || !isInputValid(this.textB.Text) || !isInputValid(this.textC.Text))
-                {
-                    MessageBox.Show("Все введённый числа должны быть больше 0!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            if (!isInputValid(this.textA.Text) || !isInputValid(this.textB.Text) || !isInputValid(this.textC.Text))
+            {
+                MessageBox.Show("Все введённый числа должны быть больше 0!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                output = Logic.FindMonths(input_A, input_B, input_C);
+            output = Logic.FindMonths(input_A, input_B, input_C);
 
-                MessageBox.Show(output, "Результат просчёта");
+            Properties.Settings.Default.A = input_A;
+            Properties.Settings.Default.B = input_B;
+            Properties.Settings.Default.C = input_C;
+            Properties.Settings.Default.Save();
+
+            MessageBox.Show(output, "Результат просчёта");
         }
         public static bool isInputValid(string input)
         {
